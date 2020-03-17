@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "bxmarten",
+    "password": "bRa1WrsEhxAKNyOscWLLmYDZKSOhoeFE",
+    "database": "bxmarten",
+    "host": "drona.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "bxmarten",
+    "password": "bRa1WrsEhxAKNyOscWLLmYDZKSOhoeFE",
+    "database": "bxmarten",
+    "host": "drona.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "bxmarten",
+    "password": "bRa1WrsEhxAKNyOscWLLmYDZKSOhoeFE",
+    "database": "bxmarten",
+    "host": "drona.db.elephantsql.com",
+    "dialect": "postgres"
+  }
+}
