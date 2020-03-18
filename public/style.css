@@ -1,0 +1,256 @@
+#table{
+    /* background-color: rgb(68, 151, 68); */
+    position: relative;
+    background-image: linear-gradient(to top, rgb(2, 78, 2) 35%, rgb(72, 124, 72)100%);
+    min-height: 600px;
+    min-width: 300px;;
+    margin: 20px;
+    padding: 20px;
+    padding-left: 35px;
+    box-shadow: 5px 5px 10px black;
+    font: 22px bold;
+    border-image:url("./images/leather.png") 70 round;
+    border: 40px dotted transparent;
+    /* background-clip: padding-box; */
+    border-radius: 30px;
+    border: 15px solid black;
+   
+}
+
+
+#messages{
+    background-color: #fff;
+    width: 40%;
+    height: 20%;
+
+}
+
+.dealer{
+    font-size: 25px;
+    text-shadow: 0px 0px 5px black;
+    color: #fff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    padding: 5px;
+}
+
+
+.player{
+
+    font-size: 25px;
+    text-shadow: 0px 0px 5px black;
+    color: #fff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    padding: 5px;
+
+}
+
+
+.points{
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: yellow;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+
+
+}
+
+.buttons{
+    position: relative;
+    top:0px;
+    left:20px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    box-shadow: 0 8px 16px rgba(7, 87, 20, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    /* background-color: #f44336; */
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 18px;
+    margin:8px;
+}
+
+.buttons:hover {
+    background-color: #fff;
+}
+
+.buttons:active {
+    background-color: #ececec;
+    box-shadow: 0 5px rgb(4, 148, 23);
+    transform: translateY(2px);
+}
+
+
+.hand{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(179, 206, 131);
+    width:85%;
+    min-height: 115px;
+    margin-bottom: 25px;
+    margin-top: 10;
+    border-radius: 14px;
+    border-style: solid;
+    border-width: 5px ;
+    border-color: rgb(239, 255, 18);
+    padding: 10px;
+    line-height: 110px;
+
+}
+
+img{
+    /* display: none; */absolute;
+}
+
+
+.card{
+    height: 110px;
+    box-shadow: 1px 1px 1px black;
+    margin-left: 10px;
+    position: relative;
+    border-radius: 5px;
+    animation-name: mostCard;
+    animation-duration: .5s;  
+    animation-delay: 0s;
+    animation-fill-mode:backwards;
+    animation-timing-function: linear;
+
+}
+
+@keyframes mostCard {
+    from {postion:aboslute; transform: rotate3d(-30, -90, 20, 85deg); top: -280px; left: 120px; display:inline; }
+    to {display: inline; position: inherit; top:0px; left: 0px;}
+}
+
+.cardFlip{
+    height: 110px;
+    box-shadow: 1px 1px 1px black;
+    margin-left: 10px;
+    position: relative;
+    border-radius: 5px;
+    animation-name: fcard;
+    animation-duration: 1s;  
+    animation-delay: 0s;
+    animation-fill-mode:backwards;
+    animation-timing-function: linear;
+
+}
+
+@keyframes fCard {
+    from {position: relative; left:-65px; top: -20px; transform: rotateY(-90deg) }
+    to {display: inline; position: inherit; top:0px; left: 0px;}
+}
+
+
+
+
+#bet-info{
+    position: relative;
+    margin-left:30px;
+    margin:px;
+    min-height: 30px;
+    background-color: #fff;
+    line-height: 50px;
+    width: 220px;
+    text-align: center;
+    border-radius: 14px;
+    border: 5px solid yellow;
+    padding: 4px;
+    background-color: rgb(124, 46, 46);
+    color: #fff;
+
+}
+
+
+.bb{
+    position: relative;
+    top:0px;
+    left:15px;
+    height: 60px;
+    width: 65px;
+    border-radius: 50%;
+    border: 7px dashed rgb(0, 0, 0);
+    font-family: fantasy;
+    font-size: 18px;
+    background-color: rgb(18, 42, 3);
+    color:white;
+    margin:10px;
+    box-shadow: 5px 11px 5px black;
+       
+}
+
+.bb:active {
+    background-color: #ececec;
+    box-shadow: 0 5px rgb(4, 148, 23);
+    transform: translateY(2px);
+}
+
+#bank{
+    position: relative;
+    height: 20px;
+    margin-left: 28px;
+    font-size: 17px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-image: linear-gradient( to top,  rgb(21, 46, 21), rgb(2, 78, 2));
+    width: 240px;
+    text-align: center;
+    border-radius: 14px;
+    border: 2px solid yellow;
+    padding: 3px;
+    color: rgb(230, 230, 202);
+    border-top: none;
+    margin-top: 5px;
+    border-bottom: 2px double yellow;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+}
+
+.backCard{
+
+    
+    background-image: url("./images/blue_back.jpg");
+    /* background-attachment: fixed; */
+    background-size: auto 110px;
+    background-repeat: no-repeat;
+    background-position: 65px 20px;
+
+
+
+}
+
+.fund{
+    background-image: url("https://www.logolynx.com/images/logolynx/c3/c36093ca9fb6c250f74d319550acac4d.jpeg");
+    background-size: 200px auto;
+    background-attachment: fixed;
+    background-position: 0px 0px;
+    background-color: black;
+    font-size: 100px;
+}
+
+
+
+
+
+
+body{
+
+    background-image: linear-gradient(to bottom right,rgb(0, 0, 0) 10%,rgb(246, 255, 163) 75%), url(./images/3px-tile.png);
+    background-blend-mode: darken;
+    background-repeat: repeat;
+
+    background-color: #005e38;
+    background-image: url("./images/arabesque.png");
+
+
+}
+
+/* #deck{
+
+    height: 110px;
+    box-shadow: 1px 1px 1px rgb(17, 13, 27); 
+
+} */
