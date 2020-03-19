@@ -12,8 +12,10 @@
     border-image:url("./images/leather.png") 70 round;
     border: 40px dotted transparent;
     /* background-clip: padding-box; */
-    border-radius: 30px;
+    /* border-radius: 30px; */
+    border-radius: 50%;
     border: 15px solid black;
+    /* border: 45px solid black; */
    
 }
 
