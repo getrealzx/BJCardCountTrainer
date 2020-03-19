@@ -2,10 +2,13 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-let db = require('./models')
-const bcrypt = require('bcryptjs');
+let auth = require('./auth');
+let db = require('./models');
 let sessions = require('express-session');
 let cookieParser = require('cookie-parser');
+
+// const bcrypt = require('bcryptjs');
+
 
 
 app.set('view engine', 'ejs');
@@ -20,35 +23,42 @@ app.use(sessions ({
     cookie: {secure: false, maxAge: 14 * 24 * 60 * 60 * 1000}
 }))
 
-let auth = (req, res, next) => {
+// let auth = (req, res, next) => {
 
-    if(req.session.playerID){
-        next();
-    }
-    else{
-        res.redirect('/login')
-    }
-}
+//     if(req.session.playerID){
+//         next();
+//     }
+//     else{
+//         res.redirect('/login')
+//     }
+// }
 
-// app.use(require('./routes/index.js'));
-// app.use(require('./routes/login.js'));
-// app.use(require('./routes/registration.js'));
+app.use(require('./routes/'));
+app.use(require('./routes/login.js'));
+app.use(require('./routes/registration.js'));
+app.use(require('./routes/admin.js'));
+app.use(require('./routes/protected.js'));
 
-app.get('/logout', (req, res) =>{
-    req.session.destroy(err=>{
-        res.redirect('/')
-    })
-})
+app.get('/error', (req, res)=>{
+    res.send('error')
+});
 
-app.all('/admin/*', auth, (req, res, next)=>{
-    next();
-})
+// app.get('/logout', (req, res) =>{
+//     req.session.destroy(err=>{
+//         res.redirect('/')
+//     })
+// })
+
+// app.all('/admin/*', auth, (req, res, next)=>{
+//     next();
+// })
 
 //create llgin form and registration form
 //create record table for the user
-app.get('/login', (req, res)=>{
-    res.render('login')
-});
+
+// app.get('/login', (req, res)=>{
+//     res.render('login')
+// });
 
 app.post('/login', (req, res)=>{
 
@@ -90,9 +100,7 @@ app.post('/login', (req, res)=>{
 
 });
 
-app.get('/error', (req, res)=>{
-    res.send('error')
-});
+
 
 //middleware server receives request => middleware => route to appropriate handler
 app.get('/admin/dashboard', (req, res) => {
@@ -101,7 +109,17 @@ app.get('/admin/dashboard', (req, res) => {
 
 
 app.get('/registration', (req, res) => {
-    res.render('registration')
+
+    let error = req.query.error;
+    let err = "hidden";
+
+    if (error) {
+        err = "visible"
+    }
+
+    res.render('registration', {
+        error: err
+    })
 })
 
 app.post('/registration', (req, res) => {
