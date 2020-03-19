@@ -39,6 +39,51 @@ app.get('/error', (req, res) => {
 })
 
 
-app.listen(3000, () => {
-  console.log('Listening on 3000');
+
+///////////// Broadcasting multiplayers ///////////////////////////
+const http = require("http").Server(app);
+const io = require('socket.io')(http);
+players = [];
+connections = [];
+
+
+
+app.get('/gameTable', function (req, res) {
+    res.sendFile((__dirname + '/index.html'));
 });
+
+io.sockets.on('connection', function (socket) {
+    connections.push(socket);
+    console.log('Connected: %s sockets connected', connections.length);
+
+    // Disconnect
+    socket.on('disconnect', function (data) {
+        players.splice(players.indexOf(socket.username), 1);
+        updateUsernames();
+        connections.splice(connections.indexOf(socket), 1);
+        console.log('Disconnected: %s socket connected', connections.length)
+    });
+    // Send message
+    socket.on('send message', function (data) {
+        console.log(data);
+        io.sockets.emit('new message', { msg: data, user: socket.username });
+    });
+
+    // New User
+    socket.on('new user', function (data, callback) {
+        callback(true);
+        socket.username = data;
+        players.push(socket.username);
+        updateUsernames();
+    });
+
+    function updateUsernames() {
+        io.sockets.emit('get players', players);
+    }
+
+});
+
+http.listen(3000, () => {
+    console.log("runnig on 3000");
+
+})
