@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Log in</title>
-    <link rel = "stylesheet" type = "text/css" href = "public/login.css">
+    <link rel = "stylesheet" type = "text/css" href = "/login.css"> 
+</head>
     <body>
-        <div class = "loginbox">   
+        <div class = "loginbox" >   
         
         <img src = "avatar.png" class = "avatar">
             
             <h1>log in here </h1>
             
-            <form>
+            <form action = "/login" method="POST" >
                 
                 <p>Username</p>
                 
@@ -35,7 +36,5 @@
     </div>  
 </body>
 
-
-</head>
 <script src = "routes/login.js"></script>
 </html>

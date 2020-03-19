@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background: url(poker.jpg);
+    background-image: url("poker.jpg");
     background-size: cover;
     background-position: center;
     font-family: sans-serif;
