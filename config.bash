@@ -5,4 +5,3 @@
 # sequelize model:create --name games --attributes amount:integer
 
 # sequelize model:create --name leaderboard --attributes gameswon:integer
-
