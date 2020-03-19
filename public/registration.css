@@ -1,5 +1,5 @@
 body{
-    background-image: url(images/poker.jpg);
+    background-image: url(images/amanda-jones-P787-xixGio-unsplash.jpg);
     height: 100vh;
     background-size: cover;
     background-position: center;
@@ -15,10 +15,10 @@ body{
 .form{
     position: relative;
     z-index: 1;
-    background: #ffffff;
+    background: lightsteelblue;
     max-width: 360px;
     margin: 0 auto 100px;
-    padding: 45px;
+    padding: 20px;
     text-align: center;
 }
 .form input{
@@ -43,4 +43,9 @@ body{
     color: #ffffff;
     font-size: 14px;
     cursor: pointer;
+}
+
+.fas fa-user{
+    color: red;
+    margin-right: 10px;
 }
