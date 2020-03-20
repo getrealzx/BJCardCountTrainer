@@ -44,26 +44,9 @@ function player (name, bankroll, carda, cardb, status, total_bet,
   this.subtotal_bet = subtotal_bet;
 }
 
-// See stackoverflow.com/questions/16427636/check-if-localstorage-is-available
-function has_local_storage () {
-  try {
-    var storage = window['localStorage'],
-    x = '__storage_test__';
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  }
-  catch(e) {
-    return false;
-  }
-}
 
 function init () {
-  if (!has_local_storage()) {
-    my_pseudo_alert("Your browser do not support localStorage - " +
-                    "try a more modern browser like Firefox");
-    return;
-  }
+
   gui_hide_poker_table();
   gui_hide_log_window();
   gui_hide_setup_option_buttons();
@@ -95,23 +78,31 @@ function handle_how_many_reply (opponents) {
   gui_show_game_response();
 }
 
-function ask_how_many_opponents () {
-  var quick_values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  var asking = "<b><font size=+4 color=red>" +
-               "So, how many opponents do you want?" +
-               "</font></b><br>";
-  for (var i = 0; i < 9; i++) {
-    if (quick_values[i]) {
-      asking += "<font size=+4>" +
-                "<a href='javascript:parent.handle_how_many_reply(" +
-                quick_values[i] + ")'>" + quick_values[i] +
-                " </a></font>" + "&nbsp;&nbsp;&nbsp;";
-    }
-  }
+
+//////////////////how many /////////////////////////////////
+// function ask_how_many_opponents () {
+//   var quick_values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+//   var asking = "<b><font size=+4 color=red>" +
+//                "So, how many opponents do you want?" +
+//                "</font></b><br>";
+//   for (var i = 0; i < 9; i++) {
+//     if (quick_values[i]) {
+//       asking += "<font size=+4>" +
+//                 "<a href='javascript:parent.handle_how_many_reply(" +
+//                 quick_values[i] + ")'>" + quick_values[i] +
+//                 " </a></font>" + "&nbsp;&nbsp;&nbsp;";
+//     }
+//   }
+//   var html9 = "<td><table align=center><tr><td align=center>";
+//   var html10 = asking + "</td></tr></table></td></tr></table></body></html>";
+//   gui_write_modal_box(html9 + html10);
+// }
+
+
+////////////////replace how many//////////////
   var html9 = "<td><table align=center><tr><td align=center>";
   var html10 = asking + "</td></tr></table></td></tr></table></body></html>";
   gui_write_modal_box(html9 + html10);
-}
 
 function initialize_game () {
   gui_hide_poker_table();

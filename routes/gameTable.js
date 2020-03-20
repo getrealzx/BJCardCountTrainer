@@ -15,4 +15,3 @@ router.get('/gameTableOnly', (req, res) => {
 module.exports = router;
 
 
-//test
