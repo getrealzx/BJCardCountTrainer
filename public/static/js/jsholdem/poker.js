@@ -4,6 +4,9 @@ Project home page: http://sourceforge.net/projects/jsholdem/
 */
 "use strict";
 
+const db = require('..../models');
+
+
 var START_DATE;
 var NUM_ROUNDS;
 var STOP_AUTOPLAY = 0;
@@ -34,7 +37,7 @@ function my_pseudo_alert(text) {
 }
 
 function player(name, bankroll, carda, cardb, status, total_bet,
-  subtotal_bet) {
+  subtotal_bet, bluff_bet) {
   this.name = name;
   this.bankroll = bankroll;
   this.carda = carda;
@@ -42,6 +45,7 @@ function player(name, bankroll, carda, cardb, status, total_bet,
   this.status = status;
   this.total_bet = total_bet;
   this.subtotal_bet = subtotal_bet;
+  this.bluff_bet = bluff_bet;
 }
 
 
@@ -81,11 +85,11 @@ function handle_how_many_reply(opponents) {
 
 //////////////////how many /////////////////////////////////
 function ask_how_many_opponents() {
-  var quick_values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var quick_values = [1, 2, 3];
   var asking = "<b><font size=+4 color=red>" +
     "So, how many opponents do you want?" +
     "</font></b><br>";
-  for (var i = 0; i < 9; i++) {
+  for (var i = 0; i < 3; i++) {
     if (quick_values[i]) {
       asking += "<font size=+4>" +
         "<a href='javascript:parent.handle_how_many_reply(" +
@@ -131,16 +135,10 @@ function new_game() {
 
 function new_game_continues(req_no_opponents) {
   var my_players = [
-    new player("惠辰國", 0, "", "", "", 0, 0),
-    new player("Jani Sointula", 0, "", "", "", 0, 0),
-    new player("Annette Obrestad", 0, "", "", "", 0, 0),
-    new player("Ricardo Chauriye", 0, "", "", "", 0, 0),
-    new player("Jennifer Shahade", 0, "", "", "", 0, 0),
-    new player("Theo Jørgensen", 0, "", "", "", 0, 0),
-    new player("Marek Židlický", 0, "", "", "", 0, 0),
-    //  Żółć - Grzegorz Brzęczyszczykiewicz
-    new player("Brzęczyszczykiewicz", 0, "", "", "", 0, 0),
-    new player("Chris Moneymaker", 0, "", "", "", 0, 0)
+    new player("Degio", 0, "", "", "", 0, 0),
+    new player("Foorkan", 0, "", "", "", 0, 0),
+    new player("Richard Z", 0, "", "", "", 0, 0)
+
   ];
 
   players = new Array(req_no_opponents + 1);
@@ -680,9 +678,54 @@ function handle_end_of_round() {
         a_string = "" + a_string + "00";
         allocations[i] = a_string.substring(0, dot_index + 3) - 0;
       }
+
       winner_text += winning_hands[i] + " gives " + allocations[i] +
         " to " + players[i].name + ". ";
+
+      ///database, gamerecord
+      // db.gameRecord.create({
+      //   playerID: i,
+      //   winning: allocations[i]
+
+      // }).then((user) => {
+
+      // });
+
       players[i].bankroll += allocations[i];
+      console.log(allocations[i]);
+
+      ///database, player
+      // db.players.findAll({
+      //   where:{id:1}
+
+      // }).then((results) => {
+      //   [{}]
+
+      //   let player = results [0];
+
+      //   player.bankroll = bankroll;
+
+      //   player.save().then(() => {
+
+      //   });
+
+      // });
+
+      //////////update method update
+
+      db.players.update({
+        bankroll: players[i].bankroll
+      },
+        {
+          where: {
+            id: 1
+          }
+        })
+        .then(updatedRecord => {
+          console.log(updatedRecord);
+        });
+
+
       if (best_hand_players[i]) {
         // function write_player(n, hilite, show_cards)
         write_player(i, 2, 1);
@@ -1176,6 +1219,8 @@ function get_num_betting() {
   }
   return n;
 }
+
+
 
 function change_name() {
   var name = prompt("What is your name?", getLocalStorage("playername"));

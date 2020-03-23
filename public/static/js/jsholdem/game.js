@@ -36,14 +36,33 @@ let deck=[];
 let value=0;
 let stand=0;
 let dealCount=0;
-let dP=document.getElementById("dealer-points");
-let pP=document.getElementById("player-points");
-let dealer={hLabel: $("#dealer-hand"), pLabel:dP, points:0, aCount:0};
-let player={hLabel: $("#player-hand"), pLabel:pP, points:0, aCount:0, bank:500};
+let p1P=document.getElementById("player-points");
+let p2P=document.getElementById("player2-points");
+
+let player1={hLabel: $("#player1-hand"), pLabel:pP, points:0, bet:0, totalBet:0, bank:500};
+let player2={hLabel: $("#player2-hand"), pLabel:pP, points:0, bet:0, totalBet:0, bank:500};
+// let communitCard = {"", "", "", "", ""};
 let curCard={};
-let bet=0;
-let totalBet=0;
 let df=0;
+
+
+
+
+//initialize the game, wait player2 to join if only one player
+
+
+
+
+
+
+
+
+
+
+
+//start the game
+
+
 
 
 suits.forEach(function(suit){
@@ -77,3 +96,66 @@ function shuffleArray(deck) {
 };
 
 shuffleArray(deck);
+console.log(deck);
+
+////////////////////////////////////////////
+
+$("#bet-info").html("Place Your Bet");
+$("#bank").html("You have $"+ player.bank+".");
+bBtn="";
+let fund='<h4>Insufficient Fund</h4><img src="https://images-na.ssl-images-amazon.com/images/I/61cL%2BM-SN%2BL._SX425_.jpg" style="width:180px;height: auto ;" alt="">';
+
+$("#betButton").click((e)=>{
+    bBtn=e.target.textContent;
+    if((bBtn=="$10"||bBtn=="$25"||bBtn=="$100")&&(dealCount!=0)){
+        alert("Not More Bet after Deal!");
+    }
+    else if(bBtn=="$10"){
+        bet=10;
+    }
+    else if(bBtn=="$25"){
+        bet=25;
+    }
+    else if(bBtn=="$100"){
+        bet=100;
+        };
+    if(player.bank>=bet&&bet!=0){
+        totalBet = totalBet + bet;
+        player.bank = player.bank-bet;
+        $("#bet-info").html("You are betting $" + totalBet);
+        $("#bank").html("You have $"+ player.bank + ".");
+    }
+    else if(player.bank<bet){
+        $("#bet-info").html(fund);
+    };
+    bet=0;
+});
+
+
+
+
+////////////// deal card/////////
+
+///dealer position
+
+///blinds
+
+player1.bet = 10;
+pleuer2.bet = 20;
+
+////preflop
+
+
+
+////flop
+
+////turn
+
+////river
+
+///compare cards
+
+
+
+
+
