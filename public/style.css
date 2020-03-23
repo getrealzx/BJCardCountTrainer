@@ -1,22 +1,70 @@
-#table{
-    /* background-color: rgb(68, 151, 68); */
-    position: relative;
+
+
+
+.room{
+    
+    position: absolute;
+    top: 0px;
+    min-height: 500px;
+    min-width: 800px;;
+    width: 100vw;
+    height: 60vw;
+    z-index: 2;
+}
+
+
+.pTable{
+
+    position: fixed;
+    top: 40%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+
+    width: 70vw;
+    height: 50vw;
+    min-height: 200px;
+    min-width: 500px;
+    
+
+
+    color: rgb(156, 211, 159);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
     background-image: linear-gradient(to top, rgb(2, 78, 2) 35%, rgb(72, 124, 72)100%);
-    min-height: 600px;
-    min-width: 300px;;
-    margin: 20px;
-    padding: 20px;
-    padding-left: 35px;
     box-shadow: 5px 5px 10px black;
-    font: 22px bold;
-    border-image:url("./images/leather.png") 70 round;
-    border: 40px dotted transparent;
-    /* background-clip: padding-box; */
-    border-radius: 30px;
-    border: 15px solid black;
+    font: 3rem bold;
+    text-align: center;
+    border-radius: 45% 45% 50% 50%;
+    border: 45px solid black; 
+    z-index: 0;
    
 }
 
+.innerTable{
+
+    
+
+    position: fixed;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    min-height: 150px;
+    min-width: 400px;
+
+    width: 50vw;
+    height: 34vw;
+    padding-top: 6rem;
+    font: 3rem bold;
+    text-align: center;
+    border-radius: 45% 45% 50% 50%;
+    border: 3px solid rgb(166, 226, 148); 
+
+    z-index: 1;
+
+
+
+}
 
 #messages{
     background-color: #fff;
@@ -238,11 +286,11 @@ img{
 
 body{
 
-    background-image: linear-gradient(to bottom right,rgb(0, 0, 0) 10%,rgb(246, 255, 163) 75%), url(./images/3px-tile.png);
+    /* background-image: linear-gradient(to bottom right,rgb(0, 0, 0) 10%,rgb(246, 255, 163) 75%), url(./images/3px-tile.png); */
     background-blend-mode: darken;
     background-repeat: repeat;
 
-    background-color: #005e38;
+    background-color: #000000;
     background-image: url("./images/arabesque.png");
 
 
