@@ -28,6 +28,7 @@ app.all('/admin/*', auth, (req, res, next) => {
 
 app.use(require('./routes/'));
 app.use(require('./routes/gameTable.js'));
+app.use(require('./routes/gameTableOnly.js'));
 app.use(require('./routes/registration.js'));
 app.use(require('./routes/login.js'));
 app.use(require('./routes/admin.js'));
@@ -84,6 +85,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 http.listen(3000, () => {
-    console.log("runnig on 3000");
+    console.log("running on port 3000");
 
 })

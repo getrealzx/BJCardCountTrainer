@@ -6,9 +6,6 @@ router.get('/gameTable', (req, res) => {
 });
 
 
-router.get('/gameTableOnly', (req, res) => {
-  res.render('gameTableOnly.ejs');
-});
 
 
 
