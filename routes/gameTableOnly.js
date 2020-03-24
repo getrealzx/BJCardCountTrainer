@@ -4,6 +4,7 @@ const db = require('../models');
 let bodyParser = require('body-parser');
 
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
 
 
 
@@ -17,12 +18,17 @@ router.post('/gameTableOnly', (req, res) => {
   //update the json file with form data
 
   console.log("Testing Post to gameTableOnly")
-  //res.unshift(req.body)
-  console.log(req)
+//   res.unshift(req.body)
+  
 
+  console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
+
+
+  
+  
   console.log("Updating players table...")
       db.players.update({
-        bankroll: req.bankroll
+        bankroll: req.body.bankroll
       },
         {
           where: {
@@ -32,6 +38,8 @@ router.post('/gameTableOnly', (req, res) => {
         .then(updatedRecord => {
           console.log("Found user and updating records...")
           console.log(updatedRecord);
+          res.json(updatedRecord)
+          
         });
 
 
