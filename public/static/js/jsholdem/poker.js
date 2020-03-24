@@ -19,22 +19,23 @@ var cards = new Array(52);
 var players;
 var board, deck_index, button_index;
 var current_bettor_index, current_bet_amount, current_min_raise;
+var axios = require("axios")
 
-function leave_pseudo_alert () {
+function leave_pseudo_alert() {
   gui_write_modal_box("");
 }
 
-function my_pseudo_alert (text) {
+function my_pseudo_alert(text) {
   var html = "<html><body topmargin=2 bottommargin=0 bgcolor=" +
-             BG_HILITE + " onload='document.f.y.focus();'>" +
-             "<font size=+2>" + text +
-             "</font><form name=f><input name=y type=button value='  OK  ' " +
-             "onclick='parent.leave_pseudo_alert()'></form></body></html>";
+    BG_HILITE + " onload='document.f.y.focus();'>" +
+    "<font size=+2>" + text +
+    "</font><form name=f><input name=y type=button value='  OK  ' " +
+    "onclick='parent.leave_pseudo_alert()'></form></body></html>";
   gui_write_modal_box(html);
 }
 
-function player (name, bankroll, carda, cardb, status, total_bet,
-                 subtotal_bet) {
+function player(name, bankroll, carda, cardb, status, total_bet,
+  subtotal_bet, bluff_bet) {
   this.name = name;
   this.bankroll = bankroll;
   this.carda = carda;
@@ -42,28 +43,12 @@ function player (name, bankroll, carda, cardb, status, total_bet,
   this.status = status;
   this.total_bet = total_bet;
   this.subtotal_bet = subtotal_bet;
+  this.bluff_bet = bluff_bet;
 }
 
-// See stackoverflow.com/questions/16427636/check-if-localstorage-is-available
-function has_local_storage () {
-  try {
-    var storage = window['localStorage'],
-    x = '__storage_test__';
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  }
-  catch(e) {
-    return false;
-  }
-}
 
-function init () {
-  if (!has_local_storage()) {
-    my_pseudo_alert("Your browser do not support localStorage - " +
-                    "try a more modern browser like Firefox");
-    return;
-  }
+function init() {
+
   gui_hide_poker_table();
   gui_hide_log_window();
   gui_hide_setup_option_buttons();
@@ -76,7 +61,7 @@ function init () {
   new_game();
 }
 
-function make_deck () {
+function make_deck() {
   var i;
   var j = 0;
   for (i = 2; i < 15; i++) {
@@ -87,7 +72,7 @@ function make_deck () {
   }
 }
 
-function handle_how_many_reply (opponents) {
+function handle_how_many_reply(opponents) {
   gui_write_modal_box("");
   write_settings_frame();
   new_game_continues(opponents);
@@ -95,17 +80,19 @@ function handle_how_many_reply (opponents) {
   gui_show_game_response();
 }
 
-function ask_how_many_opponents () {
-  var quick_values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+//////////////////how many /////////////////////////////////
+function ask_how_many_opponents() {
+  var quick_values = [1, 2, 3];
   var asking = "<b><font size=+4 color=red>" +
-               "So, how many opponents do you want?" +
-               "</font></b><br>";
-  for (var i = 0; i < 9; i++) {
+    "So, how many opponents do you want?" +
+    "</font></b><br>";
+  for (var i = 0; i < 3; i++) {
     if (quick_values[i]) {
       asking += "<font size=+4>" +
-                "<a href='javascript:parent.handle_how_many_reply(" +
-                quick_values[i] + ")'>" + quick_values[i] +
-                " </a></font>" + "&nbsp;&nbsp;&nbsp;";
+        "<a href='javascript:parent.handle_how_many_reply(" +
+        quick_values[i] + ")'>" + quick_values[i] +
+        " </a></font>" + "&nbsp;&nbsp;&nbsp;";
     }
   }
   var html9 = "<td><table align=center><tr><td align=center>";
@@ -113,14 +100,20 @@ function ask_how_many_opponents () {
   gui_write_modal_box(html9 + html10);
 }
 
-function initialize_game () {
+
+////////////////replace how many//////////////
+var html9 = "<td><table align=center><tr><td align=center>";
+var html10 = asking + "</td></tr></table></td></tr></table></body></html>";
+gui_write_modal_box(html9 + html10);
+
+function initialize_game() {
   gui_hide_poker_table();
   gui_hide_dealer_button();
   gui_hide_fold_call_raise_click();
   gui_show_poker_table();
 }
 
-function clear_player_cards (count) {
+function clear_player_cards(count) {
   count = count + 1; // Count that human too
   for (var pl = 0; pl < count; ++pl) {
     gui_set_player_cards("", "", pl);
@@ -130,7 +123,7 @@ function clear_player_cards (count) {
   }
 }
 
-function new_game () {
+function new_game() {
   START_DATE = new Date();
   NUM_ROUNDS = 0;
   HUMAN_WINS_AGAIN = 0;
@@ -138,19 +131,13 @@ function new_game () {
   ask_how_many_opponents();
 }
 
-function new_game_continues (req_no_opponents) {
+function new_game_continues(req_no_opponents) {
   var my_players = [
-                    new player("惠辰國", 0, "", "", "", 0, 0),
-                    new player("Jani Sointula", 0, "", "", "", 0, 0),
-                    new player("Annette Obrestad", 0, "", "", "", 0, 0),
-                    new player("Ricardo Chauriye", 0, "", "", "", 0, 0),
-                    new player("Jennifer Shahade", 0, "", "", "", 0, 0),
-                    new player("Theo Jørgensen", 0, "", "", "", 0, 0),
-                    new player("Marek Židlický", 0, "", "", "", 0, 0),
-                    //  Żółć - Grzegorz Brzęczyszczykiewicz
-                    new player("Brzęczyszczykiewicz", 0, "", "", "", 0, 0),
-                    new player("Chris Moneymaker", 0, "", "", "", 0, 0)
-                   ];
+    new player("Degio", 0, "", "", "", 0, 0),
+    new player("Foorkan", 0, "", "", "", 0, 0),
+    new player("Richard Z", 0, "", "", "", 0, 0)
+
+  ];
 
   players = new Array(req_no_opponents + 1);
   var player_name = getLocalStorage("playername");
@@ -173,7 +160,7 @@ function new_game_continues (req_no_opponents) {
   new_round();
 }
 
-function number_of_active_players () {
+function number_of_active_players() {
   var num_playing = 0;
   var i;
   for (i = 0; i < players.length; i++) {
@@ -184,7 +171,7 @@ function number_of_active_players () {
   return num_playing;
 }
 
-function new_round () {
+function new_round() {
   RUN_EM = 0;
   NUM_ROUNDS++;
   // Clear buttons
@@ -193,11 +180,11 @@ function new_round () {
   var num_playing = number_of_active_players();
   if (num_playing < 2) {
     gui_setup_fold_call_raise_click("Start a new game",
-                                    0,
-                                    0,
-                                    new_game,
-                                    new_game,
-                                    new_game);
+      0,
+      0,
+      new_game,
+      new_game,
+      new_game);
     return;
   }
   HUMAN_GOES_ALL_IN = 0;
@@ -231,7 +218,7 @@ function new_round () {
   blinds_and_deal();
 }
 
-function collect_cards () {
+function collect_cards() {
   board = new Array(6);
   for (var i = 0; i < players.length; i++) {
     players[i].carda = "";
@@ -239,7 +226,7 @@ function collect_cards () {
   }
 }
 
-function new_shuffle () {
+function new_shuffle() {
   function get_random_int(max) {
     return Math.floor(Math.random() * max);
   }
@@ -252,16 +239,16 @@ function new_shuffle () {
   }
 }
 
-function old_shuffle () {
+function old_shuffle() {
   cards.sort(compRan);
 }
 
-function shuffle () {
+function shuffle() {
   new_shuffle();
   deck_index = 0;
 }
 
-function blinds_and_deal () {
+function blinds_and_deal() {
   SMALL_BLIND = 5;
   BIG_BLIND = 10;
   var num_playing = number_of_active_players();
@@ -283,18 +270,18 @@ function blinds_and_deal () {
   deal_and_write_a();
 }
 
-function unroll_player (starting_player, player_pos, final_call) {
+function unroll_player(starting_player, player_pos, final_call) {
   var next_player = get_next_player_position(player_pos, 1);
   write_player(player_pos, 0, 0);
   if (starting_player == next_player) {
     setTimeout(final_call, 550 * global_speed);
   } else {
     setTimeout(unroll_player, 550 * global_speed,
-               starting_player, next_player, final_call);
+      starting_player, next_player, final_call);
   }
 }
 
-function deal_and_write_a () {
+function deal_and_write_a() {
   var current_player;
   var start_player;
 
@@ -311,11 +298,11 @@ function deal_and_write_a () {
 }
 
 // Make a small delay before starting the bets
-function delay_for_main () {
+function delay_for_main() {
   setTimeout(main, 1000);
 }
 
-function deal_and_write_b () {
+function deal_and_write_b() {
   var current_player = button_index;
   for (var i = 0; i < players.length; i++) {
     current_player = get_next_player_position(current_player, 1);
@@ -329,7 +316,7 @@ function deal_and_write_b () {
   unroll_player(current_player, current_player, delay_for_main);
 }
 
-function go_to_betting () {
+function go_to_betting() {
   if (get_num_betting() > 1) {
     setTimeout(main, 1000 * global_speed);
   } else {
@@ -337,18 +324,18 @@ function go_to_betting () {
   }
 }
 
-function unroll_table (last_pos, current_pos, final_call) {
+function unroll_table(last_pos, current_pos, final_call) {
   gui_lay_board_card(current_pos, board[current_pos]);
 
   if (current_pos == last_pos) {
     setTimeout(final_call, 150 * global_speed);
   } else {
     setTimeout(unroll_table, 150 * global_speed,
-               last_pos, current_pos + 1, final_call);
+      last_pos, current_pos + 1, final_call);
   }
 }
 
-function deal_flop () {
+function deal_flop() {
   var burn = cards[deck_index++];
   gui_burn_board_card(0, 'blinded');
   var message = "<tr><td><font size=+2><b>Dealing flop</b></font>";
@@ -361,7 +348,7 @@ function deal_flop () {
   setTimeout(unroll_table, 1000, /*last_pos*/2, /*start_pos*/0, go_to_betting);
 }
 
-function deal_fourth () {
+function deal_fourth() {
   var burn = cards[deck_index++];
   gui_burn_board_card(1, 'blinded');
   var message = "<tr><td><font size=+2><b>Dealing turn</b></font>";
@@ -372,7 +359,7 @@ function deal_fourth () {
   setTimeout(unroll_table, 1000, /*last_pos*/3, /*start_pos*/3, go_to_betting);
 }
 
-function deal_fifth () {
+function deal_fifth() {
   var burn = cards[deck_index++];
   gui_burn_board_card(2, 'blinded');
   var message = "<tr><td><font size=+2><b>Dealing river</b></font>";
@@ -383,24 +370,24 @@ function deal_fifth () {
   setTimeout(unroll_table, 1000, /*last_pos*/4, /*start_pos*/4, go_to_betting);
 }
 
-function main () {
+function main() {
   gui_hide_guick_raise();
   var increment_bettor_index = 0;
   if (players[current_bettor_index].status == "BUST" ||
-      players[current_bettor_index].status == "FOLD") {
+    players[current_bettor_index].status == "FOLD") {
     increment_bettor_index = 1;
   } else if (!has_money(current_bettor_index)) {
     players[current_bettor_index].status = "CALL";
     increment_bettor_index = 1;
   } else if (players[current_bettor_index].status == "CALL" &&
-             players[current_bettor_index].subtotal_bet == current_bet_amount) {
+    players[current_bettor_index].subtotal_bet == current_bet_amount) {
     increment_bettor_index = 1;
   } else {
     players[current_bettor_index].status = "";
     if (current_bettor_index == 0) {
       var call_button_text = "<u>C</u>all";
       var fold_button_text = "<u>F</u>old";
-      var bet_button_text  = "<u>R</u>aise";
+      var bet_button_text = "<u>R</u>aise";
       var to_call = current_bet_amount - players[0].subtotal_bet;
       if (to_call > players[0].bankroll) {
         to_call = players[0].bankroll;
@@ -467,11 +454,11 @@ function main () {
 
       // And enable the buttons
       gui_setup_fold_call_raise_click(fold_button_text,
-                                      call_button_text,
-                                      bet_button_text,
-                                      do_fold,
-                                      do_call,
-                                      do_raise);
+        call_button_text,
+        bet_button_text,
+        do_fold,
+        do_call,
+        do_raise);
 
       var quick_values = new Array(6);
       if (to_call < players[0].bankroll) {
@@ -497,23 +484,23 @@ function main () {
       for (i = 0; i < 6; i++) {
         if (quick_values[i]) {
           quick_bets += "<a href='javascript:parent.handle_human_bet(" +
-                        quick_values[i] + ")'>" + quick_values[i] + "</a>" +
-                        "&nbsp;&nbsp;&nbsp;";
+            quick_values[i] + ")'>" + quick_values[i] + "</a>" +
+            "&nbsp;&nbsp;&nbsp;";
         }
       }
       quick_bets += "<a href='javascript:parent.handle_human_bet(" +
-                    players[0].bankroll + ")'>All In!</a>";
+        players[0].bankroll + ")'>All In!</a>";
       var html9 = "<td><table align=center><tr><td align=center>";
       var html10 = quick_bets +
-                   "</td></tr></table></td></tr></table></body></html>";
+        "</td></tr></table></td></tr></table></body></html>";
       gui_write_guick_raise(html9 + html10);
 
       var hi_lite_color = gui_get_theme_mode_highlite_color();
       var message = "<tr><td><font size=+2><b>Current raise: " +
-                    current_bet_amount +
-                    "</b><br> You need <font color=" + hi_lite_color +
-                    " size=+3>" + to_call +
-                    "</font> more to call.</font></td></tr>";
+        current_bet_amount +
+        "</b><br> You need <font color=" + hi_lite_color +
+        " size=+3>" + to_call +
+        "</font> more to call.</font></td></tr>";
       gui_write_game_response(message);
       write_player(0, 1, 0);
       return;
@@ -549,7 +536,7 @@ function main () {
 
 var global_pot_remainder = 0;
 
-function handle_end_of_round () {
+function handle_end_of_round() {
   var candidates = new Array(players.length);
   var allocations = new Array(players.length);
   var winning_hands = new Array(players.length);
@@ -580,9 +567,9 @@ function handle_end_of_round () {
   }
 
   while (my_total_pot_size > (pot_remainder + 0.9) && still_active_candidates) {
-//    gui_log_to_history("splitting pot with pot " + my_total_pot_size +
-//                       " and remainder " + pot_remainder +
-//                       " on " + still_active_candidates + " candidates" );
+    //    gui_log_to_history("splitting pot with pot " + my_total_pot_size +
+    //                       " and remainder " + pot_remainder +
+    //                       " on " + still_active_candidates + " candidates" );
 
     // The first round all who not folded or busted are candidates
     // If that/ose winner(s) cannot get all of the pot then we try
@@ -592,7 +579,7 @@ function handle_end_of_round () {
       best_hand_players = winners;
     }
     if (!winners) {
-//      gui_log_to_history("no winners");
+      //      gui_log_to_history("no winners");
       my_pseudo_alert("No winners for the pot ");
       pot_remainder = my_total_pot_size;
       my_total_pot_size = 0;
@@ -622,9 +609,9 @@ function handle_end_of_round () {
     //    then just take the 'lowest_winner_bet' to the pot
 
     // Take in any fraction from a previous split
-//    if (pot_remainder) {
-//      gui_log_to_history("increasing current pot with remainder " + pot_remainder);
-//    }
+    //    if (pot_remainder) {
+    //      gui_log_to_history("increasing current pot with remainder " + pot_remainder);
+    //    }
     current_pot_to_split = pot_remainder;
     pot_remainder = 0;
 
@@ -639,13 +626,13 @@ function handle_end_of_round () {
     }
 
     // Divide the pot - in even integrals
-//    gui_log_to_history("Divide the pot " + current_pot_to_split +
-//                       " on " + num_winners + " winner(s)");
+    //    gui_log_to_history("Divide the pot " + current_pot_to_split +
+    //                       " on " + num_winners + " winner(s)");
     var share = Math.floor(current_pot_to_split / num_winners);
     // and save any remainders to next round
     pot_remainder = current_pot_to_split - share * num_winners;
 
-//    gui_log_to_history("share " + share + " remainder " + pot_remainder);
+    //    gui_log_to_history("share " + share + " remainder " + pot_remainder);
 
     for (i = 0; i < winners.length; i++) {
       if (my_total_bets_per_player[i] < 0.01) {
@@ -668,15 +655,15 @@ function handle_end_of_round () {
     }
     if (still_active_candidates == 0) {
       pot_remainder = my_total_pot_size;
-//      gui_log_to_history("no more candidates, pot_remainder " + pot_remainder);
+      //      gui_log_to_history("no more candidates, pot_remainder " + pot_remainder);
     }
     gui_log_to_history("End of iteration");
   } // End of pot distribution
 
   global_pot_remainder = pot_remainder;
-//  gui_log_to_history("distributed; global_pot_remainder: " +
-//                     global_pot_remainder +
-//                     " pot_remainder: " + pot_remainder);
+  //  gui_log_to_history("distributed; global_pot_remainder: " +
+  //                     global_pot_remainder +
+  //                     " pot_remainder: " + pot_remainder);
   pot_remainder = 0;
   var winner_text = "";
   var human_loses = 0;
@@ -689,9 +676,83 @@ function handle_end_of_round () {
         a_string = "" + a_string + "00";
         allocations[i] = a_string.substring(0, dot_index + 3) - 0;
       }
+
       winner_text += winning_hands[i] + " gives " + allocations[i] +
-                     " to " + players[i].name + ". ";
+        " to " + players[i].name + ". ";
+
+
+
       players[i].bankroll += allocations[i];
+      console.log(players[0].bankroll);
+      console.log(`allocation is ${allocations[0]}`);
+
+
+      let data = {
+        id : 1,
+        bankroll: players[0].bankroll
+
+      };
+
+
+
+      
+        fetch('/gameTableOnly', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        })
+          .then((response) => {
+            //console.log("=====FETCH RESPONSE=====")
+            //console.log(response.json());
+            //converts to javascript object
+            return response.json()
+  
+          })
+          .then((result) => {
+  
+            //array of objects
+            console.log(result);
+            
+          });
+     
+
+
+
+
+      // let data = {
+      //   username: player[i],
+      //   bankroll: players[i].bankroll
+
+      // }
+
+
+      // fetch('/gameTable.js', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(data)
+
+      // })
+      //   .then((response) => {
+
+      //     //converts to javascript object
+      //     return response.json()
+      //     console.log(response);
+      //   })
+      //   .then((feedbackData) => {
+
+      //     //array of objects
+      //     console.log(feedbackData);
+      //     ///  [{}, {}, {}, {name:"", title:"", message:""}]
+
+      //     updateFeedback(feedbackData)
+
+
+      //   });
+
+
+
+
+
       if (best_hand_players[i]) {
         // function write_player(n, hilite, show_cards)
         write_player(i, 2, 1);
@@ -723,7 +784,7 @@ function handle_end_of_round () {
       continue;  // Skip busted players
     }
     detail += players[i].name + " bet " + players[i].total_bet + " & got " +
-              allocations[i] + ".\\n";
+      allocations[i] + ".\\n";
   }
   detail = " (<a href='javascript:alert(\"" + detail + "\")'>details</a>)";
 
@@ -757,19 +818,19 @@ function handle_end_of_round () {
   }
   var hi_lite_color = gui_get_theme_mode_highlite_color();
   var html = "<html><body topmargin=2 bottommargin=0 bgcolor=" + BG_HILITE +
-             " onload='document.f.c.focus();'><table><tr><td>" +
-             get_pot_size_html() +
-             "</td></tr></table><br><font size=+2 color=" + hi_lite_color +
-             "><b>Winning: " +
-             winner_text + "</b></font>" + detail + "<br>";
+    " onload='document.f.c.focus();'><table><tr><td>" +
+    get_pot_size_html() +
+    "</td></tr></table><br><font size=+2 color=" + hi_lite_color +
+    "><b>Winning: " +
+    winner_text + "</b></font>" + detail + "<br>";
   gui_write_game_response(html);
 
   gui_setup_fold_call_raise_click(quit_text,
-                                  continue_text,
-                                  0,
-                                  quit_func,
-                                  continue_func,
-                                  continue_func);
+    continue_text,
+    0,
+    quit_func,
+    continue_func,
+    continue_func);
 
   var elapsed_milliseconds = ((new Date()) - START_DATE);
   var elapsed_time = makeTimeString(elapsed_milliseconds);
@@ -777,7 +838,7 @@ function handle_end_of_round () {
   if (human_loses == 1) {
     var ending = NUM_ROUNDS == 1 ? "1 deal." : NUM_ROUNDS + " deals.";
     my_pseudo_alert("Sorry, you busted " + players[0].name + ".\n\n" +
-                    elapsed_time + ", " + ending);
+      elapsed_time + ", " + ending);
   } else {
     var num_playing = number_of_active_players();
     if (num_playing < 2) {
@@ -789,12 +850,12 @@ function handle_end_of_round () {
         end_msg += "\n\nSorry, you lost.";
       }
       my_pseudo_alert(end_msg + "\n\nThis game lasted " + elapsed_time + ", " +
-                      over_ending);
+        over_ending);
     }
   }
 }
 
-function autoplay_new_round () {
+function autoplay_new_round() {
   if (STOP_AUTOPLAY > 0) {
     STOP_AUTOPLAY = 0;
     new_game();
@@ -803,7 +864,7 @@ function autoplay_new_round () {
   }
 }
 
-function ready_for_next_card () {
+function ready_for_next_card() {
   var num_betting = get_num_betting();
   var i;
   for (i = 0; i < players.length; i++) {
@@ -847,7 +908,7 @@ function ready_for_next_card () {
   }
 }
 
-function the_bet_function (player_index, bet_amount) {
+function the_bet_function(player_index, bet_amount) {
   if (players[player_index].status == "FOLD") {
     return 0;
     // FOLD ;
@@ -867,22 +928,22 @@ function the_bet_function (player_index, bet_amount) {
     }
     players[player_index].status = "CALL";
   } else if (bet_amount + players[player_index].subtotal_bet ==
-             current_bet_amount) { // CALL
+    current_bet_amount) { // CALL
     players[player_index].status = "CALL";
   } else if (current_bet_amount >
-             players[player_index].subtotal_bet + bet_amount) { // 2 SMALL
+    players[player_index].subtotal_bet + bet_amount) { // 2 SMALL
     // COMMENT OUT TO FIND BUGS
     if (player_index == 0) {
       my_pseudo_alert("The current bet to match is " + current_bet_amount +
-                      "\nYou must bet a total of at least " +
-                      (current_bet_amount - players[player_index].subtotal_bet) +
-                      " or fold.");
+        "\nYou must bet a total of at least " +
+        (current_bet_amount - players[player_index].subtotal_bet) +
+        " or fold.");
     }
     return 0;
   } else if (bet_amount + players[player_index].subtotal_bet >
-             current_bet_amount && // RAISE 2 SMALL
-             get_pot_size() > 0 &&
-             bet_amount + players[player_index].subtotal_bet - current_bet_amount < current_min_raise) {
+    current_bet_amount && // RAISE 2 SMALL
+    get_pot_size() > 0 &&
+    bet_amount + players[player_index].subtotal_bet - current_bet_amount < current_min_raise) {
     // COMMENT OUT TO FIND BUGS
     if (player_index == 0) {
       my_pseudo_alert("Minimum raise is currently " + current_min_raise + ".");
@@ -908,7 +969,7 @@ function the_bet_function (player_index, bet_amount) {
   return 1;
 }
 
-function human_call () {
+function human_call() {
   // Clear buttons
   gui_hide_fold_call_raise_click();
   players[0].status = "CALL";
@@ -918,7 +979,7 @@ function human_call () {
   main();
 }
 
-function get_valid_bet (amount, minimum, maximum, prompt_text) {
+function get_valid_bet(amount, minimum, maximum, prompt_text) {
   var iterate = true;
   var fail_text;
   var as_integer = "none";
@@ -930,7 +991,7 @@ function get_valid_bet (amount, minimum, maximum, prompt_text) {
     }
     if (isNaN(amount)) {
       prompt_text = "Would love to accept " + amount +
-                    ", but that is not a valid bet";
+        ", but that is not a valid bet";
       amount = null;
       continue;
     }
@@ -949,7 +1010,7 @@ function get_valid_bet (amount, minimum, maximum, prompt_text) {
     }
     if (as_integer > maximum) {
       prompt_text = "You cannot bet " + as_integer +
-                    ", you only have " + maximum;
+        ", you only have " + maximum;
       amount = null;
       continue;
     }
@@ -959,31 +1020,31 @@ function get_valid_bet (amount, minimum, maximum, prompt_text) {
   return as_integer;
 }
 
-function human_raise () {
+function human_raise() {
   var to_call = current_bet_amount - players[0].subtotal_bet;
   var my_min_raise = to_call - current_min_raise;
   if (my_min_raise < 0 && to_call) {
     prompt("Cannot have " + my_min_raise);
   }
   var prompt_text = "Minimum raise is " + my_min_raise +
-                    ". How much do you raise? DO NOT include the " +
-                    to_call + " needed to call.";
+    ". How much do you raise? DO NOT include the " +
+    to_call + " needed to call.";
   if (to_call == 0) {
     prompt_text = "The minimum bet is " + my_min_raise +
-                  ". How much do you want to bet?";
+      ". How much do you want to bet?";
   }
 
   var bet_amount = get_valid_bet("",
-                                 my_min_raise,
-                                 players[0].bankroll,
-                                 prompt_text);
+    my_min_raise,
+    players[0].bankroll,
+    prompt_text);
 
   bet_amount += to_call;
 
   handle_human_bet(bet_amount);
 }
 
-function handle_human_bet (bet_amount) {
+function handle_human_bet(bet_amount) {
   if (bet_amount < 0 || isNaN(bet_amount)) bet_amount = 0;
   var to_call = current_bet_amount - players[0].subtotal_bet;
   bet_amount += to_call;
@@ -999,7 +1060,7 @@ function handle_human_bet (bet_amount) {
   }
 }
 
-function human_fold () {
+function human_fold() {
   players[0].status = "FOLD";
   // Clear the buttons - not able to call or raise
   gui_hide_fold_call_raise_click();
@@ -1010,7 +1071,7 @@ function human_fold () {
   main();
 }
 
-function bet_from_bot (x) {
+function bet_from_bot(x) {
   var b = 0;
   var n = current_bet_amount - players[x].subtotal_bet;
   if (!board[0]) b = bot_get_preflop_bet();
@@ -1039,7 +1100,7 @@ function bet_from_bot (x) {
   main();
 }
 
-function write_player (n, hilite, show_cards) {
+function write_player(n, hilite, show_cards) {
   var carda = "";
   var cardb = "";
   var name_background_color = "";
@@ -1095,7 +1156,7 @@ function write_player (n, hilite, show_cards) {
 
   if (players[n].status == "FOLD") {
     bet_text = "FOLDED (" +
-               (players[n].subtotal_bet + players[n].total_bet) + ")";
+      (players[n].subtotal_bet + players[n].total_bet) + ")";
     if (n == 0) {
       HUMAN_GOES_ALL_IN = 0;
     }
@@ -1106,13 +1167,13 @@ function write_player (n, hilite, show_cards) {
     }
   } else if (!has_money(n)) {
     bet_text = "ALL IN (" +
-               (players[n].subtotal_bet + players[n].total_bet) + ")";
+      (players[n].subtotal_bet + players[n].total_bet) + ")";
     if (n == 0) {
       HUMAN_GOES_ALL_IN = 1;
     }
   } else {
     bet_text = allin + "$" + players[n].subtotal_bet +
-               " (" + (players[n].subtotal_bet + players[n].total_bet) + ")";
+      " (" + (players[n].subtotal_bet + players[n].total_bet) + ")";
   }
 
   gui_set_player_name(players[n].name, n);    // offset 1 on seat-index
@@ -1121,7 +1182,7 @@ function write_player (n, hilite, show_cards) {
   gui_set_player_cards(carda, cardb, n, show_folded);
 }
 
-function make_readable_rank (r) {
+function make_readable_rank(r) {
   if (r < 11) {
     return r;
   } else if (r == 11) {
@@ -1135,7 +1196,7 @@ function make_readable_rank (r) {
   }
 }
 
-function get_pot_size () {
+function get_pot_size() {
   var p = 0;
   for (var i = 0; i < players.length; i++) {
     p += players[i].total_bet + players[i].subtotal_bet;
@@ -1143,50 +1204,52 @@ function get_pot_size () {
   return p;
 }
 
-function get_pot_size_html () {
+function get_pot_size_html() {
   return "<font size=+4><b>TOTAL POT: " + get_pot_size() + "</b></font>";
 }
 
-function clear_bets () {
+function clear_bets() {
   for (var i = 0; i < players.length; i++) {
     players[i].subtotal_bet = 0;
   }
   current_bet_amount = 0;
 }
 
-function clear_pot () {
+function clear_pot() {
   for (var i = 0; i < players.length; i++) {
     players[i].total_bet = 0;
   }
 }
 
-function reset_player_statuses (type) {
+function reset_player_statuses(type) {
   for (var i = 0; i < players.length; i++) {
     if (type == 0) {
       players[i].status = "";
     } else if (type == 1 && players[i].status != "BUST") {
       players[i].status = "";
     } else if (type == 2 &&
-               players[i].status != "FOLD" &&
-               players[i].status != "BUST") {
+      players[i].status != "FOLD" &&
+      players[i].status != "BUST") {
       players[i].status = "";
     }
   }
 }
 
-function get_num_betting () {
+function get_num_betting() {
   var n = 0;
   for (var i = 0; i < players.length; i++) {
     if (players[i].status != "FOLD" &&
-        players[i].status != "BUST" &&
-        has_money(i)) {
+      players[i].status != "BUST" &&
+      has_money(i)) {
       n++;
     }
   }
   return n;
 }
 
-function change_name () {
+
+
+function change_name() {
   var name = prompt("What is your name?", getLocalStorage("playername"));
   if (!name) {
     return;
@@ -1204,51 +1267,51 @@ function change_name () {
   setLocalStorage("playername", name);
 }
 
-function help_func () {
+function help_func() {
   // Open help.html
   window.location.href = 'help.html';
 }
 
-function update_func () {
+function update_func() {
   var url = 'https://sourceforge.net/projects/js-css-poker/files/';
   var win = window.open(url, '_blank');
   win.focus();
 }
 
-function write_settings_frame () {
+function write_settings_frame() {
   var default_speed = 2;
   var speed_i = getLocalStorage("gamespeed");
   if (speed_i == "") {
     speed_i = default_speed;
   }
   if (speed_i == null ||
-      (speed_i != 0 &&
-       speed_i != 1 &&
-       speed_i != 2 &&
-       speed_i != 3 &&
-       speed_i != 4)) {
+    (speed_i != 0 &&
+      speed_i != 1 &&
+      speed_i != 2 &&
+      speed_i != 3 &&
+      speed_i != 4)) {
     speed_i = default_speed;
   }
   set_speed(speed_i);
   gui_setup_option_buttons(change_name,
-                           set_raw_speed,
-                           help_func,
-                           update_func,
-                           gui_toggle_the_theme_mode);
+    set_raw_speed,
+    help_func,
+    update_func,
+    gui_toggle_the_theme_mode);
 }
 
-function index2speed (index) {
+function index2speed(index) {
   var speeds = ['2', '1', '.6', '.3', '0.01'];
   return speeds[index];
 }
 
-function set_speed (index) {
+function set_speed(index) {
   global_speed = index2speed(index);
   setLocalStorage("gamespeed", index);
   gui_set_selected_speed_option(index);
 }
 
-function set_raw_speed (selector_index) {
+function set_raw_speed(selector_index) {
   // check that selector_index = [1,5]
   if (selector_index < 1 || selector_index > 5) {
     my_pseudo_alert("Cannot set speed to " + selector_index);
@@ -1258,7 +1321,7 @@ function set_raw_speed (selector_index) {
   set_speed(index);
 }
 
-function get_next_player_position (i, delta) {
+function get_next_player_position(i, delta) {
   var j = 0;
   var step = 1;
   if (delta < 0) step = -1;
@@ -1284,26 +1347,26 @@ function get_next_player_position (i, delta) {
   return i;
 }
 
-function getLocalStorage (key) {
+function getLocalStorage(key) {
   return localStorage.getItem(key);
 }
 
-function setLocalStorage (key, value) {
+function setLocalStorage(key, value) {
   return localStorage.setItem(key, value);
 }
 
-function has_money (i) {
+function has_money(i) {
   if (players[i].bankroll >= 0.01) {
     return true;
   }
   return false;
 }
 
-function compRan () {
+function compRan() {
   return 0.5 - Math.random();
 }
 
-function my_local_subtime (invalue, fractionizer) {
+function my_local_subtime(invalue, fractionizer) {
   var quotient = 0;
   var remainder = invalue;
   if (invalue > fractionizer) {
@@ -1313,7 +1376,7 @@ function my_local_subtime (invalue, fractionizer) {
   return [quotient, remainder];
 }
 
-function getTimeText (string, number, text) {
+function getTimeText(string, number, text) {
   if (number == 0) return string;
   if (string.length > 0) {
     string += " ";
@@ -1326,7 +1389,7 @@ function getTimeText (string, number, text) {
   return string;
 }
 
-function makeTimeString (milliseconds) {
+function makeTimeString(milliseconds) {
   var _MS_PER_SECOND = 1000;
   var _MS_PER_MINUTE = 1000 * 60;
   var _MS_PER_HOUR = _MS_PER_MINUTE * 60;
