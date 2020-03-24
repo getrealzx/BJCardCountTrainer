@@ -693,28 +693,36 @@ function handle_end_of_round() {
 
       };
 
-
-
-      fetch('/gameTable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: "THIS IS WHERE THE DATA SHOULD BE :(" ///data type?
-
+      axios.post("http://localhost:3000/gameTableOnly", {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        params: { data }
       })
-        .then((response) => {
-          console.log("=====FETCH RESPONSE=====")
-          console.log(response);
-          //converts to javascript object
-          return response.json()
+ 
 
-        })
-        .then((result) => {
 
-          //array of objects
-          console.log(result);
-          ///  [{}]
+    //  fetch('/gameTableOnly', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: "====data===" ///data type?
 
-        });
+    //   })
+    //     .then((response) => {
+    //       console.log("=====FETCH RESPONSE=====")
+    //       console.log(response);
+    //       //converts to javascript object
+    //       return response.json()
+
+    //     })
+    //     .then((result) => {
+
+    //       //array of objects
+    //       console.log(result);
+    //       ///  [{}]
+
+    //     }); 
 
 
 
