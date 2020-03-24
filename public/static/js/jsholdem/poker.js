@@ -4,9 +4,6 @@ Project home page: http://sourceforge.net/projects/jsholdem/
 */
 "use strict";
 
-const db = require('..../models');
-
-
 var START_DATE;
 var NUM_ROUNDS;
 var STOP_AUTOPLAY = 0;
@@ -22,6 +19,7 @@ var cards = new Array(52);
 var players;
 var board, deck_index, button_index;
 var current_bettor_index, current_bet_amount, current_min_raise;
+var axios = require("axios")
 
 function leave_pseudo_alert() {
   gui_write_modal_box("");
@@ -682,48 +680,77 @@ function handle_end_of_round() {
       winner_text += winning_hands[i] + " gives " + allocations[i] +
         " to " + players[i].name + ". ";
 
-      ///database, gamerecord
-      // db.gameRecord.create({
-      //   playerID: i,
-      //   winning: allocations[i]
 
-      // }).then((user) => {
-
-      // });
 
       players[i].bankroll += allocations[i];
-      console.log(allocations[i]);
+      console.log(players[0].bankroll);
+      console.log(`allocation is ${allocations[0]}`);
 
-      ///database, player
-      // db.players.findAll({
-      //   where:{id:1}
 
-      // }).then((results) => {
-      //   [{}]
+      let data = {
+        id : 1,
+        bankroll: players[0].bankroll
 
-      //   let player = results [0];
+      };
 
-      //   player.bankroll = bankroll;
 
-      //   player.save().then(() => {
+
+      fetch('/gameTable', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: "THIS IS WHERE THE DATA SHOULD BE :(" ///data type?
+
+      })
+        .then((response) => {
+          console.log("=====FETCH RESPONSE=====")
+          console.log(response);
+          //converts to javascript object
+          return response.json()
+
+        })
+        .then((result) => {
+
+          //array of objects
+          console.log(result);
+          ///  [{}]
+
+        });
+
+
+
+
+      // let data = {
+      //   username: player[i],
+      //   bankroll: players[i].bankroll
+
+      // }
+
+
+      // fetch('/gameTable.js', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(data)
+
+      // })
+      //   .then((response) => {
+
+      //     //converts to javascript object
+      //     return response.json()
+      //     console.log(response);
+      //   })
+      //   .then((feedbackData) => {
+
+      //     //array of objects
+      //     console.log(feedbackData);
+      //     ///  [{}, {}, {}, {name:"", title:"", message:""}]
+
+      //     updateFeedback(feedbackData)
+
 
       //   });
 
-      // });
 
-      //////////update method update
 
-      db.players.update({
-        bankroll: players[i].bankroll
-      },
-        {
-          where: {
-            id: 1
-          }
-        })
-        .then(updatedRecord => {
-          console.log(updatedRecord);
-        });
 
 
       if (best_hand_players[i]) {
