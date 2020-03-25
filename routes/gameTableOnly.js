@@ -45,11 +45,13 @@ router.post('/gameTableOnly', (req, res) => {
     //   console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
 
     let winning = 0;
-    db.players.findAll({ where: { id: 1 } })
-        .then(results => {
+
+    db.players.findAll({where:{id:1}})
+        .then(results=>{
             winning = req.body.bankroll - results[0].bankroll;
-            console.log(`current bankroll is ${results[0].bankroll}`);
-            console.log(`the wining is ${winning}`);
+            console.log( `current bankroll is ${results[0].bankroll}`);
+            console.log(`the winning is ${winning}`);
+
 
         })
 
@@ -75,13 +77,4 @@ router.post('/gameTableOnly', (req, res) => {
 })
 
 
-
-
-
-
-
-
-
-
 module.exports = router;
-

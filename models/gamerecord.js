@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   gameRecord.associate = function(models) {
     gameRecord.hasMany(models.games, {foreignKey: 'gameID'})
-    gameRecord.hasMany(models.players, {foreignKey: 'playerID'})
+    gameRecord.hasMany(models.players, {foreignKey: 'id'})
   };
   return gameRecord;
 };

@@ -33,6 +33,9 @@ app.use(require('./routes/registration.js'));
 app.use(require('./routes/login.js'));
 app.use(require('./routes/admin.js'));
 app.use(require('./routes/protected.js'));
+
+app.use(require('./routes/logout.js'));
+
 app.use(require('./routes/chat'));
 
 
