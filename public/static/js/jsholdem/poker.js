@@ -8,7 +8,7 @@ var START_DATE;
 var NUM_ROUNDS;
 var STOP_AUTOPLAY = 0;
 var RUN_EM = 0;
-var STARTING_BANKROLL = 500;
+var STARTING_BANKROLL = 888;
 var SMALL_BLIND;
 var BIG_BLIND;
 var BG_HILITE = 'gold';           // "#EFEF30",
@@ -711,43 +711,20 @@ function handle_end_of_round() {
           .then((result) => {
   
             //array of objects
-            console.log(result);
+            // console.log(result);
             
           });
-     
+
+//////get data from db
+        // fetch('/gameTableOnly', {
+        // })
+        //   .then((response) => {
+        //     console.log(`the bank in db is ${db_bankroll}`);
+        //     return response.json()
+  
+        //   });
 
 
-
-
-      // let data = {
-      //   username: player[i],
-      //   bankroll: players[i].bankroll
-
-      // }
-
-
-      // fetch('/gameTable.js', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-
-      // })
-      //   .then((response) => {
-
-      //     //converts to javascript object
-      //     return response.json()
-      //     console.log(response);
-      //   })
-      //   .then((feedbackData) => {
-
-      //     //array of objects
-      //     console.log(feedbackData);
-      //     ///  [{}, {}, {}, {name:"", title:"", message:""}]
-
-      //     updateFeedback(feedbackData)
-
-
-      //   });
 
 
 

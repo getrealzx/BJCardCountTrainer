@@ -10,12 +10,17 @@ router.use(bodyParser.json())
 
 router.get('/gameTableOnly', (req, res) => {
 
-    db.players.findAll({where:{id:1}})
-        .then(results=>{
+    // db.players.findAll({where:{id:1}})
+    //     .then(results=>{
+
+    //         ;
+    //         res.render("gameTableOnly",{
+    //             db_bankroll:results[0].bankroll
+    //         })
 
 
-            
-        })
+
+    //     })
     res.render('gameTableOnly.ejs');
 });
 
@@ -30,7 +35,7 @@ router.post('/gameTableOnly', (req, res) => {
 
     //   console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
 
-    let winnig = 0;
+    let winning = 0;
     db.players.findAll({where:{id:1}})
         .then(results=>{
             winning = req.body.bankroll - results[0].bankroll;
@@ -39,7 +44,7 @@ router.post('/gameTableOnly', (req, res) => {
 
         })
 
-    console.log("Updating players table...");
+    // console.log("Updating players table...");
 
 
 
@@ -53,7 +58,7 @@ router.post('/gameTableOnly', (req, res) => {
             }
         })
         .then(updatedRecord => {
-            console.log("Found user and updating records...")
+            // console.log("Found user and updating records...")
             console.log(updatedRecord);
             res.json(updatedRecord)
 

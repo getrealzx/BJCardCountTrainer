@@ -33,7 +33,14 @@ router.post('/login', (req, res) => {
 
                     if (response) {
                         req.session.playerID = username;
-                        res.redirect('/');
+
+                        console.log(req.session);
+                        res.redirect('/gameTable');
+                        // res.render('/gameTable',{
+                        //     playerID: req.session.playerID
+                        // });
+
+
                     }
                     else {
                         res.redirect('/error')
