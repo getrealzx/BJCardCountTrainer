@@ -2,56 +2,76 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
+let bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json())
+
+
 
 router.get('/gameTableOnly', (req, res) => {
+
+    db.players.findAll({where:{id:1}})
+        .then(results=>{
+
+
+            
+        })
     res.render('gameTableOnly.ejs');
 });
 
+
 router.post('/gameTableOnly', (req, res) => {
 
-    let username = req.body.username;
+    //update the json file with form data
 
-    let password = req.body.password;
+    console.log("Testing Post to gameTableOnly")
+    //   res.unshift(req.body)
 
-    db.players.findAll({ where: { username: username } })
-        .then(results => {
-            //[{usrname: value, email: value, password},{}, {}]
 
-            //authenticated
-            if (results.length > 0) {
-                //user has been found,
+    //   console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
 
-                //test the pasword
+    let winnig = 0;
+    db.players.findAll({where:{id:1}})
+        .then(results=>{
+            winning = req.body.bankroll - results[0].bankroll;
+            console.log( `current bankroll is ${results[0].bankroll}`);
+            console.log(`the wining is ${winning}`);
 
-                bcrypt.compare(password, results[0].password, (err, response) => {
-
-                    // console.log(results[0].password);
-                    // console.log(password);
-                    // console.log(err);
-
-                    if (response) {
-                        req.session.playerID = username;
-                        res.redirect('/gameTableOnly');
-                    }
-                    else {
-                        res.render('login.ejs', {invalidPassword: true})
-                    }
-                })
-            }
-            else {
-                res.redirect('/registration')
-            }
         })
 
-    // res.send('post login')
+    console.log("Updating players table...");
+
+
+
+
+    db.players.update({
+        bankroll: req.body.bankroll
+    },
+        {
+            where: {
+                id: 1
+            }
+        })
+        .then(updatedRecord => {
+            console.log("Found user and updating records...")
+            console.log(updatedRecord);
+            res.json(updatedRecord)
+
+        });
+
+
+
 })
 
-router.get('/logout', (req, res) => {
 
-    req.session.destroy((err) => {
-        res.redirect('/')
-    })
 
-})
+
+
+
+
+
+
 
 module.exports = router;
+
