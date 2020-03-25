@@ -11,7 +11,6 @@ body{
 
 #bg { 
     position: fixed; 
-    top: 18%; 
     left: 0; 
     /* Preserve aspet ratio */
     width: 100%;
@@ -67,6 +66,3 @@ body{
     color: goldenrod;
 }
 
-.separator{
-    
-}
