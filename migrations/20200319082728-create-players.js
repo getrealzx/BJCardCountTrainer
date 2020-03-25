@@ -1,36 +1,16 @@
-'use strict';
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('players', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      username: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      bankroll: {
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('players');
-  }
-};
+// 'use strict';
+// module.exports = {
+//   up: (queryInterface, Sequelize) => {
+//     return queryInterface.addColumn(
+//       'players',
+//       'last_time_withdrew',
+//       {
+//         type: Sequelize.INTEGER,
+//         allowNull: false
+//       }
+//     )
+//   },
+//   down: (queryInterface, Sequelize) => {
+//     // return queryInterface.dropTable('players');
+//   }
+// };

@@ -85,6 +85,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 http.listen(3000, () => {
-    console.log("runnig on 3000");
+    console.log("running on port 3000");
 
 })

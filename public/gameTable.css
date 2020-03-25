@@ -1,0 +1,12 @@
+body{
+    background-color: rgb(58, 163, 58);
+}
+#chat.chat{
+    float: right;
+    position: relative;
+    
+}
+
+#message.form-control{
+    width: 50%;
+}
