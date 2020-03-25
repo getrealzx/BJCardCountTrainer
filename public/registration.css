@@ -44,22 +44,11 @@ body{
 }
 .form input[type="submit"]:hover{
     background: white;
-    color: red;
+    color: #007bff;
     font-weight: bold;
 }
 
-/* .form button{
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #4CAF50;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #ffffff;
-    font-size: 14px;
-    cursor: pointer;
-} */
+
 a{
     font-weight: bold;
 }
@@ -75,7 +64,3 @@ h1{
 .message{
     color: white;
 }
-/* .fas fa-user{
-    color: red;
-    margin-right: 10px;
-} */
