@@ -1,5 +1,5 @@
 
-/* @import url(https://fonts.googleapis.com/css?family=Open+Sans:800); */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:800);
 body{
     margin: 0;
     padding: 0;
@@ -9,9 +9,9 @@ body{
     
 }
 
-#bg { */
+#bg { 
     position: fixed; 
-    top: 19%; 
+    top: 18%; 
     left: 0; 
     /* Preserve aspet ratio */
     width: 100%;

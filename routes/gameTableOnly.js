@@ -65,13 +65,4 @@ router.post('/gameTableOnly', (req, res) => {
 })
 
 
-
-
-
-
-
-
-
-
 module.exports = router;
-
