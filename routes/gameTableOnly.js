@@ -9,52 +9,57 @@ router.use(bodyParser.json())
 
 
 router.get('/gameTableOnly', (req, res) => {
-  res.render('gameTableOnly.ejs');
+
+    db.players.findAll({where:{id:1}})
+        .then(results=>{
+
+
+            
+        })
+    res.render('gameTableOnly.ejs');
 });
 
 
 router.post('/gameTableOnly', (req, res) => {
 
-  //update the json file with form data
+    //update the json file with form data
 
-  console.log("Testing Post to gameTableOnly")
-//   res.unshift(req.body)
-  
-
-  console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
+    console.log("Testing Post to gameTableOnly")
+    //   res.unshift(req.body)
 
 
-  
-  
-  console.log("Updating players table...")
-      db.players.update({
+    //   console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
+
+    let winnig = 0;
+    db.players.findAll({where:{id:1}})
+        .then(results=>{
+            winning = req.body.bankroll - results[0].bankroll;
+            console.log( `current bankroll is ${results[0].bankroll}`);
+            console.log(`the wining is ${winning}`);
+
+        })
+
+    console.log("Updating players table...");
+
+
+
+
+    db.players.update({
         bankroll: req.body.bankroll
-      },
+    },
         {
-          where: {
-            id: 1
-          }
+            where: {
+                id: 1
+            }
         })
         .then(updatedRecord => {
-          console.log("Found user and updating records...")
-          console.log(updatedRecord);
-          res.json(updatedRecord)
-          
+            console.log("Found user and updating records...")
+            console.log(updatedRecord);
+            res.json(updatedRecord)
+
         });
 
 
-  // fs.writeFile('data/feedback.json', JSON.stringify(feedbackData), 'utf8', (err) => {
-
-  //     if (err) {
-  //         console.log(err);
-  //     }
-
-  //     console.log(req.body);
-
-  //     //feedbackData is js object.  Must be converted to json string.
-
-  //     res.json(feedbackData)
-  // })
 
 })
 
