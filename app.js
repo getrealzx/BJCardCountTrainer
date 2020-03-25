@@ -98,6 +98,6 @@ io.on('connection',(socket) => { //on let to accept message
 // });
 
 http.listen(3000, () => {
-    console.log("runnig on 3000");
+    console.log("running on port 3000");
 
 })
