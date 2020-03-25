@@ -29,7 +29,7 @@
         //msg is new broadcasted message from server
         socket.on('chat message', (msg) => {
             let messages = document.getElementById('messages');
-            let liTag = messages.innerHTML + `<li><%= playerID %>${msg}</li>`;
+            let liTag = messages.innerHTML + `<li><%= username %>${msg}</li>`;
             messages.innerHTML = liTag;
         })
     </script>
