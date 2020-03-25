@@ -1,0 +1,68 @@
+
+/* @import url(https://fonts.googleapis.com/css?family=Open+Sans:800); */
+body{
+    margin: 0;
+    padding: 0;
+    /* background-image: url("images/casinoTable.jpg"); */
+    background-size: 100%;
+    font-family: sans-serif;
+    
+}
+
+#bg { */
+    position: fixed; 
+    top: 19%; 
+    left: 0; 
+    /* Preserve aspet ratio */
+    width: 100%;
+    /* height: 100%; */
+}
+
+#header {
+    width: 100%;
+    height: 100px;
+    text-align: initial;
+    color: black;
+}
+.container{
+    width: 100%;
+    padding: 0%;
+    background-color: blanchedalmond;
+
+}
+
+.navbar.navbar-expand-lg.navbar-warning.bg-black{
+    color: black;
+    background-color: black;
+}
+
+.navbar-nav.mr-auto{
+    flex-direction: row;
+    margin-left: 40px;
+    align-items: baseline;
+    color: black;
+}
+
+.nav-item{
+    padding: 10px;
+    size: 500px;
+}
+
+.navbar-brand{
+    margin-left: 5px;
+}
+
+
+.nav-link{
+    color: black;
+    font-size: 30px;
+    margin-left: 40px;
+    text-shadow: 1px 1px 2px goldenrod, 0 0 25px goldenrod, 0 0 5px goldenrod;
+    font-weight: bolder;
+    font-style: oblique;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.nav-link:hover{
+    color: goldenrod;
+}

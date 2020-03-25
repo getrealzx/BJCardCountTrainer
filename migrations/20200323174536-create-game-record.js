@@ -1,14 +1,11 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('leaderboards', {
+    return queryInterface.createTable('gameRecords', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      gameswon: {
         type: Sequelize.INTEGER
       },
       playerID: {
@@ -27,6 +24,9 @@ module.exports = {
           key: "id"
         }
       },
+      winnings: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -38,6 +38,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('leaderboards');
+    return queryInterface.dropTable('gameRecords');
   }
 };

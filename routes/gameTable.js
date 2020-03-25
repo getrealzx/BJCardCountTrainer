@@ -14,8 +14,6 @@ router.get('/gameTable', (req, res) => {
 });
 
 
-
-
 module.exports = router;
 
 

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   players.associate = function(models) {
     // associations can be defined here
-    players.hasMany(models.leaderboard, {foreignKey: 'playerID'})
+    players.belongsTo(models.gameRecord, {foreignKey: 'playerID'})
 
   };
   return players;
