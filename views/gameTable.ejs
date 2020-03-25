@@ -17,7 +17,6 @@
 
 
 <div class="container">
-
     <div id="userFormArea" class="row">
         <div class="col-12-md">
             <form id="userForm">
@@ -50,6 +49,8 @@
                 </div>
             </form>
         </div>
+        <%= playerID %>
+
     </div>
 </div>
 
@@ -70,6 +71,8 @@
             socket.emit('send message', $message.val());
             $message.val('');
         });
+
+
 
         socket.on('new message', function(data) {
             $chat.append('<div class="well"><strong>'+data.user+': </strong>'+data.msg+'</div>');

@@ -7,12 +7,11 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 
 router.get('/gameTable', (req, res) => {
-  res.render('gameTable.ejs');
+  console.log(req.session.playerID);
+  res.render('gameTable',{
+    playerID:req.session.playerID
+  });
 });
-
-
-
-
 
 
 

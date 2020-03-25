@@ -8,46 +8,51 @@ router.use(bodyParser.json())
 
 
 
-router.get('/gameTableOnly', (req, res) => {
-
-    // db.players.findAll({where:{id:1}})
-    //     .then(results=>{
-
-    //         ;
-    //         res.render("gameTableOnly",{
-    //             db_bankroll:results[0].bankroll
-    //         })
 
 
+// router.get('http://localhost:3000/static/js/jsholdem/poker.js', (req, res) => {
 
-    //     })
-    res.render('gameTableOnly.ejs');
+router.get('/gameTableOnly/data', (req, res) => {
+
+
+    db.players.findAll({ where: { id: 1 } })
+        .then(results => {
+            let db_bankroll = results[0].bankroll;
+            // console.log(bankroll);
+            // res.render("gameTableOnly.ejs", {
+            //     db_bankroll: bankroll
+            // });
+            res.json(db_bankroll)
+
+
+        })
+
+    // res.render('gameTableOnly.ejs');
 });
 
+router.get("/gameTableOnly", (req, res)=>{
+
+    res.render('gameTableOnly.ejs');
+
+})
 
 router.post('/gameTableOnly', (req, res) => {
 
     //update the json file with form data
-
-    console.log("Testing Post to gameTableOnly")
+    // console.log("Testing Post to gameTableOnly")
     //   res.unshift(req.body)
-
-
     //   console.log(`bankroll type: ${typeof(req.body.bankroll)} value: ${req.body.bankroll}`)
 
     let winning = 0;
-    db.players.findAll({where:{id:1}})
-        .then(results=>{
+    db.players.findAll({ where: { id: 1 } })
+        .then(results => {
             winning = req.body.bankroll - results[0].bankroll;
-            console.log( `current bankroll is ${results[0].bankroll}`);
+            console.log(`current bankroll is ${results[0].bankroll}`);
             console.log(`the wining is ${winning}`);
 
         })
 
     // console.log("Updating players table...");
-
-
-
 
     db.players.update({
         bankroll: req.body.bankroll
