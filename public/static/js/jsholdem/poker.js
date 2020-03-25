@@ -8,7 +8,7 @@ var START_DATE;
 var NUM_ROUNDS;
 var STOP_AUTOPLAY = 0;
 var RUN_EM = 0;
-var STARTING_BANKROLL = 500;
+var STARTING_BANKROLL = 888;
 var SMALL_BLIND;
 var BIG_BLIND;
 var BG_HILITE = 'gold';           // "#EFEF30",
@@ -19,7 +19,6 @@ var cards = new Array(52);
 var players;
 var board, deck_index, button_index;
 var current_bettor_index, current_bet_amount, current_min_raise;
-var axios = require("axios")
 
 function leave_pseudo_alert() {
   gui_write_modal_box("");
@@ -80,7 +79,7 @@ function handle_how_many_reply(opponents) {
   gui_show_game_response();
 }
 
-
+let asking = "";
 //////////////////how many /////////////////////////////////
 function ask_how_many_opponents() {
   var quick_values = [1, 2, 3];
@@ -685,69 +684,58 @@ function handle_end_of_round() {
       players[i].bankroll += allocations[i];
       console.log(players[0].bankroll);
       console.log(`allocation is ${allocations[0]}`);
+      console.log("========THe DB Bankroll========");
+      // console.log(db_bankroll);
+
+
 
 
       let data = {
-        id : 1,
+        id: 1,
         bankroll: players[0].bankroll
 
       };
 
 
 
-      
-        fetch('/gameTableOnly', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json'},
-          body: JSON.stringify(data)
+
+      fetch('/gameTableOnly', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then((response) => {
+          //console.log("=====FETCH RESPONSE=====")
+          //console.log(response.json());
+          //converts to javascript object
+          return response.json()
+
         })
-          .then((response) => {
-            //console.log("=====FETCH RESPONSE=====")
-            //console.log(response.json());
-            //converts to javascript object
-            return response.json()
-  
-          })
-          .then((result) => {
-  
-            //array of objects
-            console.log(result);
-            
-          });
-     
+        .then((result) => {
+
+          //array of objects
+          // console.log(result);
+
+        });
 
 
 
+      //////get data from db
+      fetch('/gameTableOnly/data', {
+        method: 'GET'
+      })
+        .then((response) => {
 
-      // let data = {
-      //   username: player[i],
-      //   bankroll: players[i].bankroll
+          console.log(response);
+          return response.json()
 
-      // }
-
-
-      // fetch('/gameTable.js', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-
-      // })
-      //   .then((response) => {
-
-      //     //converts to javascript object
-      //     return response.json()
-      //     console.log(response);
-      //   })
-      //   .then((feedbackData) => {
-
-      //     //array of objects
-      //     console.log(feedbackData);
-      //     ///  [{}, {}, {}, {name:"", title:"", message:""}]
-
-      //     updateFeedback(feedbackData)
+        })
+        .then((result) => {
+          console.log(`the dbankrool is ${result}`);
+          
+        });
 
 
-      //   });
 
 
 
@@ -1414,4 +1402,4 @@ function makeTimeString(milliseconds) {
   string = getTimeText(string, seconds, "second");
 
   return (string);
-}
+};

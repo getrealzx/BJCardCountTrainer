@@ -7,10 +7,36 @@ html {
 
 .poker-table {
     background-repeat: no-repeat;
-    left: 100px;
+    left: 200px;
     position: absolute;
     height: 411px;
     width: 745px;
+
+    /* position: fixed;
+    top: 40%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+
+    height: 211px;
+    width: 545px;
+    min-height: 200px;
+    min-width: 500px;
+    
+
+
+    color: rgb(156, 211, 159);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+    background-image: linear-gradient(to top, rgb(2, 78, 2) 35%, rgb(72, 124, 72)100%);
+    box-shadow: 5px 5px 10px black;
+    font: 3rem bold;
+    text-align: center;
+    border-radius: 45% 45% 50% 50%;
+    border: 45px solid black; 
+    z-index: 0; */
+
+
+
 }
 
 .seat {

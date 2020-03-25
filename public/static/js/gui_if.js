@@ -424,6 +424,7 @@ function gui_initialize_css () {
   var item;
   item = document.getElementById('poker_table');
   image = "url('static/images/poker_table.png')";
+
   internal_setBackground(item, image, 1.0);
 }
 

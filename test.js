@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 //node receiveds request =>  middleware =>request, response
 router.get('/login', (req, res) => {
 
-    res.render('login', {invalidPassword: false})
+    res.render('login')
 })
 
 router.post('/login', (req, res) => {
@@ -28,13 +28,11 @@ router.post('/login', (req, res) => {
 
                 bcrypt.compare(password, results[0].password, (err, response) => {
 
-                    // console.log(results[0].password);
-                    // console.log(password);
-                    // console.log(err);
+                    console.log(results[0].password);
+                    console.log(password);
 
                     if (response) {
                         req.session.playerID = username;
-
 
                         console.log(req.session);
                         res.redirect('/gameTable');
@@ -43,12 +41,9 @@ router.post('/login', (req, res) => {
                         // });
 
 
-
-                        res.redirect('/gameTableOnly');
-
                     }
                     else {
-                        res.render('login.ejs', {invalidPassword: true})
+                        res.redirect('/error')
                     }
                 })
             }
