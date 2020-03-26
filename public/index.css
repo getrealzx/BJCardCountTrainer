@@ -11,8 +11,12 @@ body{
 
 #bg { 
     position: fixed; 
+<<<<<<< HEAD
     left: 0; 
     /* Preserve aspet ratio */
+=======
+
+>>>>>>> 834e6c53867e5c552f0af7092dbdebbd0f7d1d46
     width: 100%;
     /* height: 100%; */
 }
@@ -65,4 +69,7 @@ body{
 .nav-link:hover{
     color: goldenrod;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 834e6c53867e5c552f0af7092dbdebbd0f7d1d46
