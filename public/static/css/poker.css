@@ -11,12 +11,12 @@ body {
 }
 
 #bg {
-    position: -ms-page;
+    position: static;
     
       
     /* Preserve aspet ratio */
     width: 100%;
-    height: 100%;
+    /* height: 100vw; */
   }
 
 #logout-button{
@@ -413,7 +413,7 @@ select {
 
 #game-response {
     border: none;
-    color: black;
+    color: yellow;
     font-size: 12px;
     height: 300px;
     left: 900px;
@@ -423,6 +423,12 @@ select {
     width: 600px;
 }
 
+#game-response.response-normal{
+    color: yellow;
+}
+a{
+    color: yellow;
+}
 #production-code {
     color: black;
     font-size: 10px;
