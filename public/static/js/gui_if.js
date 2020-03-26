@@ -76,9 +76,9 @@ function internal_setCard (diva, card, folded) {
   var opacity = 1.0;
   if (typeof card === 'undefined') {
     alert('Undefined card ' + card);
-    image = "url('static/images/outline.gif')";
+    image = "url('static/images/outline.png')";
   } else if (card === "") {
-    image = "url('static/images/outline.gif')";
+    image = "url('static/images/outline.png')";
   } else if (card === "blinded") {
     image = "url('static/images/cardback.png')";
   } else {

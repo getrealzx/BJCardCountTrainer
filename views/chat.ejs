@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
     <form action="">
         <input type="text" id="m">
@@ -29,15 +27,12 @@
         })
         //receive
         //msg is new broadcasted message from server
-        
         socket.on('chat message', (msg) => {
             let messages = document.getElementById('messages');
-
             console.log(playername);
             let liTag = messages.innerHTML + `<li> ${msg}</li>`;
             messages.innerHTML = liTag;
         })
     </script>
 </body>
-
 </html>

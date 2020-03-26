@@ -20,6 +20,27 @@ var players;
 var board, deck_index, button_index;
 var current_bettor_index, current_bet_amount, current_min_raise;
 
+
+
+      //////get data from db
+      fetch('/gameTableOnly/data', {
+        method: 'GET'
+      })
+        .then((response) => {
+
+          console.log(response);
+          return response.json()
+
+        })
+        .then((result) => {
+          console.log(`the dbankrool is ${result}`);
+          
+        });
+
+        console.log("$$$$the username is $$$$$$:");
+        console.log(<%-JSON.stringify(username) >);
+
+
 function leave_pseudo_alert() {
   gui_write_modal_box("");
 }
@@ -720,20 +741,6 @@ function handle_end_of_round() {
 
 
 
-      //////get data from db
-      fetch('/gameTableOnly/data', {
-        method: 'GET'
-      })
-        .then((response) => {
-
-          console.log(response);
-          return response.json()
-
-        })
-        .then((result) => {
-          console.log(`the dbankrool is ${result}`);
-          
-        });
 
 
 
