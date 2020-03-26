@@ -75,7 +75,7 @@ h1{
 {
     cursor: pointer;
     background: white;
-    color: #007bff;
+    color: red;
 }
 .loginbox a{
     text-decoration: none;
