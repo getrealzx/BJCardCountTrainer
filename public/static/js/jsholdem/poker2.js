@@ -1,3 +1,7 @@
+/*
+If you improve this software or find a bug, please let me know: orciu@users.sourceforge.net
+Project home page: http://sourceforge.net/projects/jsholdem/
+*/
 "use strict";
 
 var START_DATE;
@@ -15,6 +19,37 @@ var cards = new Array(52);
 var players;
 var board, deck_index, button_index;
 var current_bettor_index, current_bet_amount, current_min_raise;
+
+// let bankroll = 0;
+var dbbank = 0;
+//////get data from db
+
+const bankrollAF = async () => {
+  return await fetch('/gameTableOnly/data', {
+    method: 'GET'
+  })
+    .then((res) => {
+  
+      console.log(res);
+      return res.json()
+  
+    })
+    .then((result) => {
+      console.log(`the dbankrool is ${result}`);
+      // dbbank = result;
+      return result;
+  
+    });
+}
+  // console.log(await bankrollAF())
+  console.log("something--------------");
+
+  console.log(username);
+  console.log(dbbank);
+
+
+
+
 
 function leave_pseudo_alert() {
   gui_write_modal_box("");
@@ -126,16 +161,20 @@ function new_game() {
   ask_how_many_opponents();
 }
 
-function new_game_continues(req_no_opponents) {
+async function new_game_continues(req_no_opponents) {
+  const tempBanroll =await bankrollAF();
+  console.log(`166: ${tempBanroll}`);
   var my_players = [
     new player("Degio", 0, "", "", "", 0, 0),
     new player("Foorkan", 0, "", "", "", 0, 0),
-    new player("Richard Z", 0, "", "", "", 0, 0)
+    new player("Richard", 0, "", "", "", 0, 0)
 
   ];
 
   players = new Array(req_no_opponents + 1);
+
   var player_name = getLocalStorage("playername");
+  // var player_name = username;
   if (!player_name) {
     player_name = "You";
   }
@@ -149,7 +188,7 @@ function new_game_continues(req_no_opponents) {
   reset_player_statuses(0);
   clear_bets();
   for (i = 0; i < players.length; i++) {
-    players[i].bankroll = STARTING_BANKROLL;
+    players[i].bankroll = await bankrollAF();
   }
   button_index = Math.floor(Math.random() * players.length);
   new_round();
@@ -680,8 +719,12 @@ function handle_end_of_round() {
       players[i].bankroll += allocations[i];
       console.log(players[0].bankroll);
       console.log(`allocation is ${allocations[0]}`);
-      console.log("========THe DB Bankroll========");
-      // console.log(db_bankroll);
+
+
+      // let username = JSON.stringify(username);
+      // console.log("the name is");
+      // console.log(username);
+
 
 
 
@@ -716,20 +759,6 @@ function handle_end_of_round() {
 
 
 
-      //////get data from db
-      fetch('/gameTableOnly/data', {
-        method: 'GET'
-      })
-        .then((response) => {
-
-          console.log(response);
-          return response.json()
-
-        })
-        .then((result) => {
-          console.log(`the dbankrool is ${result}`);
-          
-        });
 
 
 

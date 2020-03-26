@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
+    
+<div id="chatbox">
     <form action="">
         <input type="text" id="m">
         <input type="submit"></form>
@@ -14,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
         let socket = io();
-        let playername = <%- JSON.stringify(username) %>;
+        let playername = "<%= username %>";
         //emit
         let form = document.querySelector('form');
         form.addEventListener('submit', (e) => {
@@ -34,5 +36,9 @@
             messages.innerHTML = liTag;
         })
     </script>
+
+</div>
+
+
 </body>
 </html>
