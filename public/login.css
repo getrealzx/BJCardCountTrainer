@@ -1,20 +1,62 @@
 body{
-    /* margin: 0;
-    padding: 0; */
-    margin-left: 200px;
-    background-image: url("images/jaroslaw-kwoczala-jLssTd4ngFA-unsplash.jpg");
+    
     background-size: 100%;
     /* background-position: center; */
     font-family: sans-serif;
     /* background-repeat: no-repeat; */
 }
+#bg { 
+    position: fixed; 
+    width: 100%;
+    /* height: 100%; */
+}
+#header {
+    width: 100%;
+    height: 100px;
+    text-align: initial;
+    color: black;
+}
+.navbar.navbar-expand-lg.navbar-warning.bg-black{
+    color: black;
+    background-color: black;
+}
+
+.navbar-nav.mr-auto{
+    flex-direction: row;
+    margin-left: 40px;
+    align-items: baseline;
+    color: black;
+}
+.nav-item{
+    padding: 10px;
+    size: 500px;
+}
+
+.navbar-brand{
+    margin-left: 5px;
+}
+
+.nav-link{
+    color: black;
+    font-size: 20px;
+    margin-left: 40px;
+    text-shadow: 1px 1px 2px goldenrod, 0 0 25px goldenrod, 0 0 5px goldenrod;
+    font-weight: bolder;
+    font-style: oblique;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.nav-link:hover{
+    color: red;
+}
+
 .loginbox{
     width: 320px;
-    height: 420px;
+    height: 350px;
     background: #000;
     color: #fff;
-    top: 50%;
-    left: 80%;
+    top: 55%;
+    left: 60%;
     position: absolute;
     transform: translate(-50%,-50%);
     box-sizing: border-box;
@@ -75,7 +117,7 @@ h1{
 {
     cursor: pointer;
     background: white;
-    color: #007bff;
+    color: red;
 }
 .loginbox a{
     text-decoration: none;

@@ -1,0 +1,55 @@
+
+.social-link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    border-radius: 50%;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+  }
+  
+  .social-link:hover,
+  .social-link:focus {
+    background: #ddd;
+    text-decoration: none;
+    color: #555;
+  }
+
+.bio-desc{
+    font-size: 10px;
+    text-align: left;
+}
+
+.bg{
+    padding-top: 2rem;
+}
+
+.navbar-nav.mr-auto{
+    flex-direction: row;
+    margin-left: 40px;
+    align-items: baseline;
+    color: black;
+}
+
+.nav-item{
+    padding: 10px;
+    size: 500px;
+}
+
+.nav-link{
+    color: black;
+    font-size: 20px;
+    margin-left: 40px;
+    text-shadow: 1px 1px 2px goldenrod, 0 0 25px goldenrod, 0 0 5px lightblue;
+    font-weight: bolder;
+    font-style: oblique;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.nav-link:hover{
+    color: red;
+}

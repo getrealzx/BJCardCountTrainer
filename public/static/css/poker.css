@@ -2,8 +2,43 @@ html {
     font-family: sans-serif; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#bg {
+    position: -ms-page;
+    
+      
+    /* Preserve aspet ratio */
+    width: 100%;
+    height: 100%;
+  }
+
+#logout-button{
+    position: absolute;
+    top: 14px;
+    right: 40px;
+    
+        background-color: #ddd;
+        border: none;
+        color: black;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 16px;
+        font-weight: bold;
+        
+    }
+
+    #logout-button:hover{
+        color: red;
+    }
 
 .poker-table {
     background-repeat: no-repeat;
