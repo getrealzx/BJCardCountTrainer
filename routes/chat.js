@@ -5,7 +5,7 @@ const r = e.Router();
 r.get('/chat',(req,res) => {
 
     res.render('chat',{
-        playerID:req.session.username
+        username:req.session.username
     })
     
 })

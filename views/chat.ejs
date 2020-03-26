@@ -29,7 +29,10 @@
         //msg is new broadcasted message from server
         socket.on('chat message', (msg) => {
             let messages = document.getElementById('messages');
-            let liTag = messages.innerHTML + `<li><%= username %>${msg}</li>`;
+
+            let username = <%- JSON.stringify(username) %>
+            console.log(username);
+            let liTag = messages.innerHTML + `<li><strong> ${username}</strong>:  ${msg}</li>`;
             messages.innerHTML = liTag;
         })
     </script>
